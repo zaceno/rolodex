@@ -1,0 +1,12 @@
+- [ ] Fetch stuff from api and render initial list
+- [ ] Initial design for mobile
+- [ ] Improve design for ipad
+- [ ] Improve design for desktop
+- [ ] Rough detail page navigation
+- [ ] Improve detail page navigation & design for mobile
+- [ ] Improve detail page navigation & design for ipad
+- [ ] Detail page navigation & design for desktop
+- [ ] Search component with debouncing, spinner et c
+- [ ] Infinite scroll or pagination?
+- [ ] Sorting component
+- [ ] Lighthouse testing
