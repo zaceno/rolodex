@@ -153,6 +153,58 @@ async function syncDB() {
   localStorage.setItem(LS_LAST_SYNC_KEY, "" + Date.now())
   console.debug("SYNC COMPLETE")
 }
+export type SearchResult = Pick<
+  Person,
+  "firstname" | "lastname" | "thumbnail" | "id"
+>
+
+async function searchNameIndex(
+  indexName: "firstname" | "lastname",
+  search: string
+): Promise<Record<string, SearchResult>> {
+  return new Promise(async (resolve, reject) => {
+    let counter = 0
+    const results: Record<string, SearchResult> = {}
+    try {
+      const db = await getDB()
+      const store = db.transaction(DB_OBJ_STORE).objectStore(DB_OBJ_STORE)
+      const index = store.index(indexName)
+      const cursorRequest = index.openCursor(
+        IDBKeyRange.bound(search, search + "\uFFFF", true, true)
+      )
+      cursorRequest.onsuccess = () => {
+        const cursor = cursorRequest.result
+        if (!cursor) resolve(results)
+        else {
+          counter++
+          results[cursor.value.id] = {
+            firstname: cursor.value.firstname,
+            lastname: cursor.value.lastname,
+            thumbnail: cursor.value.thumbnail,
+            id: cursor.value.id,
+          }
+          cursor.continue()
+        }
+      }
+    } catch (e) {
+      reject(e)
+    }
+  })
+}
+
+export async function searchNames(search: string) {
+  const results = {
+    ...(await searchNameIndex("firstname", search)),
+    ...(await searchNameIndex("lastname", search)),
+  }
+  return Object.entries(results)
+    .map(([k, v]) => v)
+    .sort((l, r) => {
+      const ln = l.firstname + l.lastname
+      const rn = r.firstname + r.lastname
+      return ln < rn ? -1 : ln > rn ? 1 : 0
+    })
+}
 
 // Start an interval to sync every ten minutes, also check right await
 // on page load wether to sync
