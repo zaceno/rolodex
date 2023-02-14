@@ -154,11 +154,16 @@ async function syncDB() {
   console.debug("SYNC COMPLETE")
 }
 
+// Type of item in list returned from searching
 export type SearchResult = Pick<
   Person,
   "firstname" | "lastname" | "thumbnail" | "id"
 >
 
+/**
+ * Searches the db along either firstname or lastname indexes
+ * to find people who match
+ */
 async function searchNameIndex(
   indexName: "firstname" | "lastname",
   search: string
@@ -191,6 +196,10 @@ async function searchNameIndex(
   })
 }
 
+/**
+ * Combines search results from both firstname and
+ * lastname searches, and sorts results
+ */
 export async function searchNames(search: string) {
   const results = {
     ...(await searchNameIndex("firstname", search)),
@@ -203,6 +212,20 @@ export async function searchNames(search: string) {
       const rn = r.firstname + r.lastname
       return ln < rn ? -1 : ln > rn ? 1 : 0
     })
+}
+
+/**
+ * Gets a single record from the database
+ */
+export async function getDetails(id: string) {
+  return new Promise<Person>(async (resolve, reject) => {
+    const req = (await getDB())
+      .transaction(DB_OBJ_STORE, "readonly")
+      .objectStore(DB_OBJ_STORE)
+      .get(id)
+    req.onsuccess = () => resolve(req.result)
+    req.onerror = ev => reject(ev)
+  })
 }
 
 // Start an interval to sync every ten minutes, also check right await

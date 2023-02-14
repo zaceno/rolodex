@@ -1,33 +1,11 @@
-import React, { useState, useEffect } from "react"
-import { SearchResult, searchNames } from "./db"
+import React from "react"
+import { SearchView } from "./SearchView"
+import { DetailView } from "./DetailView"
+
 function App() {
-  let [search, setSearch] = useState<string>("Rose")
-  let [result, setResult] = useState<SearchResult[]>([])
-  useEffect(() => {
-    searchNames(search).then(x => setResult(x))
-  }, [search])
-  return (
-    <main>
-      <h1>Rolodex</h1>
-      <input
-        type="text"
-        value={search}
-        onInput={ev => setSearch((ev.target as HTMLInputElement).value)}
-      />
-      <ul>
-        {result.map(person => (
-          <li key={person.id}>
-            <a href={`./${person.id}`}>
-              <p>
-                <img src={person.thumbnail} /> {person.firstname}{" "}
-                {person.lastname}
-              </p>
-            </a>
-          </li>
-        ))}
-      </ul>
-    </main>
-  )
+  let id = window.location.pathname.match(/^\/(.+)$/)?.[1]
+  if (!id) return SearchView()
+  else return DetailView({ id })
 }
 
 export default App

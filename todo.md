@@ -8,10 +8,12 @@
 - [x] Render initial list
 - [x] Rough search experimentation
 - [x] Fix search to work for complete first/last name searches
-- [ ] Capitalize and clean up search term
-- [ ] Rough detail page navigation
-- [ ] Enable sorting on last-name/ascending/descending
+- [x] Capitalize and clean up search term
+- [x] Debounce search
+- [x] Rough detail page navigation
+- [x] Preserve search-term when navigating
 - [ ] DB Error handling and compatibility checking for opening db
+- [ ] Enable sorting on last-name/ascending/descending
 - [ ] Event bus when api/db sync is ongoing, and error status
 - [ ] Initial design for mobile
 - [ ] Improve design for ipad
@@ -24,6 +26,16 @@
 - [ ] Lighthouse testing
 
 # Log
+
+Seems like search term is cached anyway on button navigation,
+still, I decided to keep the last search term in localstorage so that
+it would be kept even on reload of page.
+
+---
+
+Search debounce and clean up search term. Realized that when navigating back and forward
+it is probably best to keep the last search term in localstorage (onunload), and
+read it from there on page load. Will be a thing to solve after detail navigation
 
 ---
 
