@@ -16,7 +16,7 @@ function App() {
       />
       <ul>
         {result.map(person => (
-          <li>
+          <li key={person.id}>
             <a href={`./${person.id}`}>
               <p>
                 <img src={person.thumbnail} /> {person.firstname}{" "}

@@ -153,6 +153,7 @@ async function syncDB() {
   localStorage.setItem(LS_LAST_SYNC_KEY, "" + Date.now())
   console.debug("SYNC COMPLETE")
 }
+
 export type SearchResult = Pick<
   Person,
   "firstname" | "lastname" | "thumbnail" | "id"
@@ -163,20 +164,18 @@ async function searchNameIndex(
   search: string
 ): Promise<Record<string, SearchResult>> {
   return new Promise(async (resolve, reject) => {
-    let counter = 0
     const results: Record<string, SearchResult> = {}
     try {
       const db = await getDB()
       const store = db.transaction(DB_OBJ_STORE).objectStore(DB_OBJ_STORE)
       const index = store.index(indexName)
       const cursorRequest = index.openCursor(
-        IDBKeyRange.bound(search, search + "\uFFFF", true, true)
+        IDBKeyRange.bound(search, search + "\uFFFF", false, false)
       )
       cursorRequest.onsuccess = () => {
         const cursor = cursorRequest.result
         if (!cursor) resolve(results)
         else {
-          counter++
           results[cursor.value.id] = {
             firstname: cursor.value.firstname,
             lastname: cursor.value.lastname,

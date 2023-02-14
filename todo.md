@@ -7,7 +7,7 @@
 - [x] Experiment with reasonable max results for search and sort
 - [x] Render initial list
 - [x] Rough search experimentation
-- [ ] Fix search to work for complete first/last name searches
+- [x] Fix search to work for complete first/last name searches
 - [ ] Capitalize and clean up search term
 - [ ] Rough detail page navigation
 - [ ] Enable sorting on last-name/ascending/descending
@@ -24,6 +24,12 @@
 - [ ] Lighthouse testing
 
 # Log
+
+---
+
+Missing out on full name search results was due to misunderstaning the IDBKeyRange.bound parameters. Fixed
+
+---
 
 Implemented very basic search functionality and noticed some issues
 1 - Searching for a name that literally exists results in nothing. Figure that out
