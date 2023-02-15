@@ -63,32 +63,29 @@ export type Person = {
  * Return a handle to the IndexedDB, while making sure the
  * object store exists.
  */
-function getDB(): Promise<IDBDatabase> {
-  let resolve: (db: IDBDatabase) => any,
-    reject: (err: Event) => any,
-    promise = new Promise<IDBDatabase>((r, j) => {
-      resolve = r
-      reject = j
-    })
-
-  // Ensure the object store exists
-  const dbreq = indexedDB.open(DB_NAME, DB_VERSION)
-  dbreq.onupgradeneeded = ev => {
-    const db = dbreq.result
-    const store = db.createObjectStore(DB_OBJ_STORE, { keyPath: "id" })
-    store.createIndex("firstname", "firstname", { unique: false })
-    store.createIndex("lastname", "lastname", { unique: false })
-  }
-  dbreq.onsuccess = () => resolve(dbreq.result)
-  dbreq.onerror = ev => reject(ev)
-  return promise
+function getDB() {
+  return new Promise<IDBDatabase>((resolve, reject) => {
+    // Ensure the object store exists
+    if (!window.indexedDB) {
+      return reject(new Error("IndexedDB not supported in this browser"))
+    }
+    const dbreq = indexedDB.open(DB_NAME, DB_VERSION)
+    dbreq.onupgradeneeded = ev => {
+      const db = dbreq.result
+      const store = db.createObjectStore(DB_OBJ_STORE, { keyPath: "id" })
+      store.createIndex("firstname", "firstname", { unique: false })
+      store.createIndex("lastname", "lastname", { unique: false })
+    }
+    dbreq.onsuccess = () => resolve(dbreq.result)
+    dbreq.onerror = ev => reject(ev)
+  })
 }
 
 /**
  * Fetches the current contact list from the API, in the
  * format they use.
  */
-function fetchAPIPersons(): Promise<APIPerson[]> {
+async function fetchAPIPersons() {
   return fetch(`${API_URL}?results=${API_NRESULTS}&seed=${API_SEED}`)
     .then(x => x.json())
     .then(x => x.results as APIPerson[])
@@ -119,40 +116,57 @@ function mapAPItoDBPerson(person: APIPerson): Person {
  * Save person in store. Return promise that
  * resolves on success and rejects on error
  */
-function putPersonInStore(
-  store: IDBObjectStore,
-  person: APIPerson
-): Promise<void> {
-  let resolve: () => any,
-    reject: (ev: Event) => any,
-    promise = new Promise<void>((r, j) => {
-      resolve = r
-      reject = j
-    })
-  const op = store.put(mapAPItoDBPerson(person))
-  op.onsuccess = () => resolve()
-  op.onerror = ev => reject(ev)
-  return promise
+function putPersonInStore(store: IDBObjectStore, person: APIPerson) {
+  return new Promise<void>((resolve, reject) => {
+    const op = store.put(mapAPItoDBPerson(person))
+    op.onsuccess = ev => {
+      resolve()
+    }
+    op.onerror = ev => {
+      console.log(ev)
+      reject(ev)
+    }
+  })
 }
 
 /**
  * Do the full db sync
  */
 async function syncDB() {
+  //If last sync was less than ten minutes ago, just skip
   if (
     Date.now() <
     +(localStorage.getItem(LS_LAST_SYNC_KEY) || 0) + TEN_MINUTES_MS
   )
     return
-  console.debug("BEGINNING SYNC")
-  let [db, apiPersons] = await Promise.all([getDB(), fetchAPIPersons()])
-  const store = db
-    .transaction(DB_OBJ_STORE, "readwrite")
-    .objectStore(DB_OBJ_STORE)
-  await Promise.all(apiPersons.map(person => putPersonInStore(store, person)))
+  //Remember last sync so we don't redo it too soon
   localStorage.setItem(LS_LAST_SYNC_KEY, "" + Date.now())
-  console.debug("SYNC COMPLETE")
+
+  console.debug("BEGINNING SYNC")
+
+  //Get the Database
+  const apiPersons = await fetchAPIPersons()
+  const db = await getDB()
+  const transaction = db.transaction([DB_OBJ_STORE], "readwrite")
+  transaction.oncomplete = () => {
+    console.log("SYNC COMPLETE")
+  }
+  transaction.onerror = e => {
+    throw e
+  }
+  const store = transaction.objectStore(DB_OBJ_STORE)
+  await Promise.all(apiPersons.map(person => putPersonInStore(store, person)))
 }
+
+/**
+ * Start syncing
+ */
+;(() => {
+  setInterval(() => {
+    syncDB().catch(e => console.error(e.message))
+  }, TEN_MINUTES_MS)
+  syncDB().catch(e => console.error(e.message))
+})()
 
 // Type of item in list returned from searching
 export type SearchResult = Pick<
@@ -167,30 +181,32 @@ export type SearchResult = Pick<
 async function searchNameIndex(
   indexName: "firstname" | "lastname",
   search: string
-): Promise<Record<string, SearchResult>> {
-  return new Promise(async (resolve, reject) => {
+) {
+  return new Promise<Record<string, SearchResult>>(async (resolve, reject) => {
     const results: Record<string, SearchResult> = {}
-    try {
-      const db = await getDB()
-      const store = db.transaction(DB_OBJ_STORE).objectStore(DB_OBJ_STORE)
-      const index = store.index(indexName)
-      const cursorRequest = index.openCursor(
-        IDBKeyRange.bound(search, search + "\uFFFF", false, false)
-      )
-      cursorRequest.onsuccess = () => {
-        const cursor = cursorRequest.result
-        if (!cursor) resolve(results)
-        else {
-          results[cursor.value.id] = {
-            firstname: cursor.value.firstname,
-            lastname: cursor.value.lastname,
-            thumbnail: cursor.value.thumbnail,
-            id: cursor.value.id,
-          }
-          cursor.continue()
+    const db = await getDB()
+    const transaction = db.transaction([DB_OBJ_STORE], "readonly")
+    const cursorRequest = transaction
+      .objectStore(DB_OBJ_STORE)
+      .index(indexName)
+      .openCursor(IDBKeyRange.bound(search, search + "\uFFFF", false, false))
+    cursorRequest.onsuccess = ev => {
+      const cursor = cursorRequest.result
+      // when cursor is null it means the iterations are
+      // done and we can resolve the results
+      if (!cursor) {
+        resolve(results)
+      } else {
+        results[cursor.value.id] = {
+          firstname: cursor.value.firstname,
+          lastname: cursor.value.lastname,
+          thumbnail: cursor.value.thumbnail,
+          id: cursor.value.id,
         }
+        cursor.continue()
       }
-    } catch (e) {
+    }
+    cursorRequest.onerror = e => {
       reject(e)
     }
   })
@@ -201,11 +217,10 @@ async function searchNameIndex(
  * lastname searches, and sorts results
  */
 export async function searchNames(search: string) {
-  const results = {
+  return Object.entries({
     ...(await searchNameIndex("firstname", search)),
     ...(await searchNameIndex("lastname", search)),
-  }
-  return Object.entries(results)
+  })
     .map(([k, v]) => v)
     .sort((l, r) => {
       const ln = l.firstname + l.lastname
@@ -219,18 +234,14 @@ export async function searchNames(search: string) {
  */
 export async function getDetails(id: string) {
   return new Promise<Person>(async (resolve, reject) => {
-    const req = (await getDB())
-      .transaction(DB_OBJ_STORE, "readonly")
-      .objectStore(DB_OBJ_STORE)
-      .get(id)
-    req.onsuccess = () => resolve(req.result)
-    req.onerror = ev => reject(ev)
+    const db = await getDB()
+    const transaction = db.transaction([DB_OBJ_STORE], "readonly")
+    const req = transaction.objectStore(DB_OBJ_STORE).get(id)
+    req.onsuccess = () => {
+      resolve(req.result)
+    }
+    req.onerror = ev => {
+      reject(ev)
+    }
   })
 }
-
-// Start an interval to sync every ten minutes, also check right await
-// on page load wether to sync
-setInterval(() => {
-  syncDB()
-}, TEN_MINUTES_MS)
-syncDB()

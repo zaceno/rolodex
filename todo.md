@@ -12,20 +12,32 @@
 - [x] Debounce search
 - [x] Rough detail page navigation
 - [x] Preserve search-term when navigating
-- [ ] DB Error handling and compatibility checking for opening db
+- [x] DB Error handling and compatibility checking for opening db
 - [ ] Enable sorting on last-name/ascending/descending
-- [ ] Event bus when api/db sync is ongoing, and error status
 - [ ] Initial design for mobile
 - [ ] Improve design for ipad
 - [ ] Improve design for desktop
 - [ ] Improve detail page navigation & design for mobile
 - [ ] Improve detail page navigation & design for ipad
 - [ ] Detail page navigation & design for desktop
+- [ ] Event bus when api/db sync is ongoing, and error status display
 - [ ] Spinner in search component
-- [ ] Sorting component
 - [ ] Lighthouse testing
 
 # Log
+
+---
+
+Spent a looong time digging in to what I thought might be a safari bug related
+to indexeddb. Turns out, I just forgot the `[]` in the `useEffect` on the details
+page, so I was looping through transactions on the DB and locking it 🤦‍♂️
+
+---
+
+Looking in to error handling, I might have to have a status-bar place to show
+both syncing status and error messages in case there are errors.
+
+---
 
 Seems like search term is cached anyway on button navigation,
 still, I decided to keep the last search term in localstorage so that

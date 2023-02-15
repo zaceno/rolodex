@@ -31,12 +31,25 @@ type DetailViewProps = {
 }
 
 export function DetailView({ id }: DetailViewProps) {
+  let [error, setError] = useState<boolean>(false)
   let [contact, setContact] = useState<Person>(defaultPerson)
   useEffect(() => {
-    getDetails(id).then(details => setContact(details))
-  })
+    getDetails(id)
+      .then(details => {
+        setContact(details)
+        setError(false)
+      })
+      .catch(e => {
+        setError(true)
+      })
+  }, [])
   return (
     <main>
+      {error && (
+        <p className="Error">
+          There was an error. Please go back and try again
+        </p>
+      )}
       <img src={contact.portrait} alt={nameString(contact)} />
       <dl>
         <dt>Name:</dt>
