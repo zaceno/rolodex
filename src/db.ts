@@ -21,6 +21,13 @@ const API_SEED = "zach"
 const LS_LAST_SYNC_KEY = "zach-rolodex-last-sync"
 const TEN_MINUTES_MS = 1000 * 60 * 10
 
+export enum SortMode {
+  FLASC = 0,
+  FLDSC = 1,
+  LFASC = 2,
+  LFDSC = 3,
+}
+
 // Person such as the API provides them, in order to perform type-safe mapping
 type APIPerson = {
   name: { first: string; last: string; title: string }
@@ -212,21 +219,29 @@ async function searchNameIndex(
   })
 }
 
+const fnln = (n: SearchResult) => n.firstname + n.lastname
+const lnfn = (n: SearchResult) => n.lastname + n.firstname
+const asc = (l: string, r: string) => (l < r ? -1 : l > r ? 1 : 0)
+const desc = (l: string, r: string) => asc(r, l)
+const sorters = {
+  [SortMode.FLASC]: (l: SearchResult, r: SearchResult) => asc(fnln(l), fnln(r)),
+  [SortMode.FLDSC]: (l: SearchResult, r: SearchResult) =>
+    desc(fnln(l), fnln(r)),
+  [SortMode.LFASC]: (l: SearchResult, r: SearchResult) => asc(lnfn(l), lnfn(r)),
+  [SortMode.LFDSC]: (l: SearchResult, r: SearchResult) =>
+    desc(lnfn(l), lnfn(r)),
+}
 /**
  * Combines search results from both firstname and
  * lastname searches, and sorts results
  */
-export async function searchNames(search: string) {
+export async function searchNames(search: string, sortMode: SortMode) {
   return Object.entries({
     ...(await searchNameIndex("firstname", search)),
     ...(await searchNameIndex("lastname", search)),
   })
     .map(([k, v]) => v)
-    .sort((l, r) => {
-      const ln = l.firstname + l.lastname
-      const rn = r.firstname + r.lastname
-      return ln < rn ? -1 : ln > rn ? 1 : 0
-    })
+    .sort(sorters[sortMode])
 }
 
 /**

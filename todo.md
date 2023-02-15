@@ -1,5 +1,7 @@
 # Plan
 
+## Todo:
+
 - [x] Fetch and map users to our own format in indexeddb
 - [x] Regular syncing of db
 - [x] Indexing on names/emails for efficient search
@@ -13,22 +15,36 @@
 - [x] Rough detail page navigation
 - [x] Preserve search-term when navigating
 - [x] DB Error handling and compatibility checking for opening db
-- [ ] Enable sorting on last-name/ascending/descending
+- [x] Enable sorting on last-name/ascending/descending
 - [ ] Initial design for mobile
 - [ ] Improve design for ipad
 - [ ] Improve design for desktop
-- [ ] Improve detail page navigation & design for mobile
+- [ ] Initial detail page navigation & design for mobile
 - [ ] Improve detail page navigation & design for ipad
-- [ ] Detail page navigation & design for desktop
+- [ ] Improve detail page navigation & design for desktop
+- [ ] Add comments to support reviewers
+
+## Maybe:
+
 - [ ] Event bus when api/db sync is ongoing, and error status display
 - [ ] Enable searching for first and last name (depending on sort)
 - [ ] Spinner in search component
 - [ ] Lighthouse testing
-- [ ] Add comments to support reviewers
+- [ ] Redo logic in search view to use state-machine engine like hyperapp's
 
 # Log
 
-I will (fully expectedly) need to elevate the state from both search and sort to the top of the search view. While doing that I used some new React18 features to make the input more responsive.
+After adding the sorting functionality and realizing what a mess the logic
+was turning in to, I decided to clean it up with useReducer. It's a lot
+more clear and structured now, but I'm not comforatable with how effects
+are handled after render, and based on state properties that simply say
+which effects should be run. Probably would like to clean it up even more
+with a hyperapp-like state-machine like engine. But I'll put that off till
+later if I feel I have more time.
+
+---
+
+I will (fully expectedly) need to elevate the state from both search and sort to the top of the search view. While doing that I used some new React18 features (useTransition, useDeferredValue) to make the input more responsive.
 
 ---
 
