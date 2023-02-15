@@ -21,10 +21,14 @@
 - [ ] Improve detail page navigation & design for ipad
 - [ ] Detail page navigation & design for desktop
 - [ ] Event bus when api/db sync is ongoing, and error status display
+- [ ] Enable searching for first and last name (depending on sort)
 - [ ] Spinner in search component
 - [ ] Lighthouse testing
+- [ ] Add comments to support reviewers
 
 # Log
+
+I will (fully expectedly) need to elevate the state from both search and sort to the top of the search view. While doing that I used some new React18 features to make the input more responsive.
 
 ---
 
