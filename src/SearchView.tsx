@@ -1,5 +1,6 @@
 import React, { useReducer, useEffect, useDeferredValue } from "react"
 import { SortMode, SearchResult, searchNames } from "./db"
+import { SearchResultsList } from "./SearchResultsList"
 const LS_LAST_SEARCH = "zach-rolodex-last-search"
 const LS_LAST_SORT = "zach-rolodex-last-sort"
 const DEBOUNCE_DELAY = 200
@@ -229,21 +230,14 @@ export function SearchView() {
       {state.error && (
         <p className="error">There was an error searching. Try again.</p>
       )}
-      <ul>
-        {deferredResults.map(person => (
-          <li key={person.id}>
-            <a href={`./${person.id}`}>
-              <p>
-                <img src={person.thumbnail} />
-                &nbsp;
-                {state.sort === SortMode.FLASC || state.sort === SortMode.FLDSC
-                  ? person.firstname + " " + person.lastname
-                  : person.lastname + ", " + person.firstname}
-              </p>
-            </a>
-          </li>
-        ))}
-      </ul>
+      {deferredResults.length && (
+        <SearchResultsList
+          results={deferredResults}
+          formal={
+            state.sort === SortMode.LFASC || state.sort === SortMode.LFDSC
+          }
+        />
+      )}
     </main>
   )
 }

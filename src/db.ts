@@ -178,7 +178,7 @@ async function syncDB() {
 // Type of item in list returned from searching
 export type SearchResult = Pick<
   Person,
-  "firstname" | "lastname" | "thumbnail" | "id"
+  "firstname" | "lastname" | "thumbnail" | "id" | "phone1" | "email"
 >
 
 /**
@@ -208,6 +208,8 @@ async function searchNameIndex(
           firstname: cursor.value.firstname,
           lastname: cursor.value.lastname,
           thumbnail: cursor.value.thumbnail,
+          email: cursor.value.email,
+          phone1: cursor.value.phone1,
           id: cursor.value.id,
         }
         cursor.continue()

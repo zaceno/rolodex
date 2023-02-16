@@ -16,12 +16,17 @@
 - [x] Preserve search-term when navigating
 - [x] DB Error handling and compatibility checking for opening db
 - [x] Enable sorting on last-name/ascending/descending
-- [ ] Initial design for mobile
+- [x] Componentize & Design result list
+- [ ] Prevent searching with empty string
+- [ ] Search box & header
+- [ ] Display for empty results
+- [ ] Display errors
+- [ ] DIsplay no search string
+- [ ] Display busy searching
+- [ ] Sorting selector
+- [ ] improve navigation transitions
 - [ ] Improve design for ipad
 - [ ] Improve design for desktop
-- [ ] Initial detail page navigation & design for mobile
-- [ ] Improve detail page navigation & design for ipad
-- [ ] Improve detail page navigation & design for desktop
 - [ ] Add comments to support reviewers
 
 ## Maybe:
@@ -33,6 +38,12 @@
 - [ ] Redo logic in search view to use state-machine engine like hyperapp's
 
 # Log
+
+Started designing the result list for mobile first. Componentized some ofit
+Realized that we will probably need to prevent searching on empty string. Require
+at least one character for search.
+
+---
 
 After adding the sorting functionality and realizing what a mess the logic
 was turning in to, I decided to clean it up with useReducer. It's a lot
