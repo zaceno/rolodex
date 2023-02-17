@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useRef, useEffect, useCallback } from "react"
 import { SortMode } from "./db"
 import "./SortDialog.css"
 
@@ -30,89 +30,93 @@ export const SortDialog = (props: SortDialogProps) => {
     if (d === "DSC" && props.sortMode === SortMode.LFASC)
       props.setSortMode(SortMode.LFDSC)
   }
+
+  // Set up top level capturing of mouse/touch events
+  // so that the dialog will be closed when we try to interact
+  // outside it
+  useEffect(() => {
+    const h = () => setSortOpen(false)
+    document.addEventListener("mousedown", h)
+    document.addEventListener("touchstart", h)
+    return () => {
+      document.removeEventListener("mousedown", h)
+      document.removeEventListener("touchstart", h)
+    }
+  }, [])
+
   return (
     <>
       <div
+        onMouseDown={ev => ev.stopPropagation()}
+        onTouchStart={ev => ev.stopPropagation()}
+        onClick={ev => setSortOpen(!sortOpen)}
         className={"sortDialogButton" + (sortOpen ? " active" : "")}
-        onClick={() => setSortOpen(true)}
       >
         <span className="icon">swap_vert</span>
       </div>
       {sortOpen && (
-        <>
-          <div
-            className="sortDialog-backfilm"
-            onClick={() => setSortOpen(false)}
-          ></div>
-          <div className="sortDialog">
-            <table>
-              <tr>
-                <td>
-                  <label>
-                    Fn Ln{" "}
-                    <input
-                      type="radio"
-                      name="nameorder"
-                      value="FL"
-                      checked={
-                        props.sortMode === SortMode.FLASC ||
-                        props.sortMode === SortMode.FLDSC
-                      }
-                      onChange={_ => setNameOrder("FL")}
-                    />
-                  </label>
-                </td>
-                <td>
-                  <label>
-                    <span className="icon">arrow_upward</span>
-                    <input
-                      type="radio"
-                      name="direction"
-                      value="DSC"
-                      checked={
-                        props.sortMode === SortMode.FLDSC ||
-                        props.sortMode === SortMode.LFDSC
-                      }
-                      onChange={_ => setSortDirection("DSC")}
-                    />
-                  </label>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label>
-                    Ln, Fn{" "}
-                    <input
-                      type="radio"
-                      name="nameorder"
-                      value="LF"
-                      checked={
-                        props.sortMode === SortMode.LFASC ||
-                        props.sortMode === SortMode.LFDSC
-                      }
-                      onChange={_ => setNameOrder("LF")}
-                    />
-                  </label>
-                </td>
-                <td>
-                  <label>
-                    <span className="icon">arrow_downward</span>
-                    <input
-                      type="radio"
-                      name="direction"
-                      value="ASC"
-                      checked={
-                        props.sortMode === SortMode.FLASC ||
-                        props.sortMode === SortMode.LFASC
-                      }
-                      onChange={_ => setSortDirection("ASC")}
-                    />
-                  </label>
-                </td>
-              </tr>
-            </table>
-          </div>
-        </>
+        <div
+          className="sortDialog"
+          onMouseDown={ev => ev.stopPropagation()}
+          onTouchStart={ev => ev.stopPropagation()}
+        >
+          <section className="sortDialog-column">
+            <label>
+              <span>Aaa Bbb</span>
+              <input
+                type="radio"
+                name="nameorder"
+                value="FL"
+                checked={
+                  props.sortMode === SortMode.FLASC ||
+                  props.sortMode === SortMode.FLDSC
+                }
+                onChange={_ => setNameOrder("FL")}
+              />
+            </label>
+            <label>
+              <span>Bbb, Aaa</span>
+              <input
+                type="radio"
+                name="nameorder"
+                value="LF"
+                checked={
+                  props.sortMode === SortMode.LFASC ||
+                  props.sortMode === SortMode.LFDSC
+                }
+                onChange={_ => setNameOrder("LF")}
+              />
+            </label>
+          </section>
+          <section className="sortDialog-column">
+            <label>
+              <span className="icon">arrow_upward</span>
+              <input
+                type="radio"
+                name="direction"
+                value="DSC"
+                checked={
+                  props.sortMode === SortMode.FLDSC ||
+                  props.sortMode === SortMode.LFDSC
+                }
+                onChange={_ => setSortDirection("DSC")}
+              />
+            </label>
+            <label>
+              <span className="icon">arrow_downward</span>
+              <input
+                type="radio"
+                name="direction"
+                value="ASC"
+                checked={
+                  props.sortMode === SortMode.FLASC ||
+                  props.sortMode === SortMode.LFASC
+                }
+                onChange={_ => setSortDirection("ASC")}
+              />
+            </label>
+          </section>
+        </div>
       )}
     </>
   )

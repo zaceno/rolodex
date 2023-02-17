@@ -18,26 +18,28 @@
 - [x] Enable sorting on last-name/ascending/descending
 - [x] Componentize & Design result list
 - [x] Search box & header
-- [ ] Prevent searching with empty string
-- [ ] Display for empty results
+- [x] Sorting selector
+- [x] Prevent searching with empty string
+- [ ] Design detail page
 - [ ] Display errors
 - [ ] DIsplay no search string
 - [ ] Display busy searching
-- [ ] Sorting selector
 - [ ] improve navigation transitions
 - [ ] Improve design for ipad
 - [ ] Improve design for desktop
 - [ ] Add comments to support reviewers
 
-## Maybe:
-
-- [ ] Event bus when api/db sync is ongoing, and error status display
-- [ ] Enable searching for first and last name (depending on sort)
-- [ ] Spinner in search component
-- [ ] Lighthouse testing
-- [ ] Redo logic in search view to use state-machine engine like hyperapp's
-
 # Log
+
+---
+
+Tried to use some advanced hook magic to make the reducer based logic in search-view work with the effects. In the end
+I went back to useState and useEffect, and figured out a cleaner way to do what I needed to do.
+
+I also made the dialog window for sorting not rely on a backdrop to close. That way we don't need to click outside
+just to close it, and then click again to do what we want to do.
+
+---
 
 Componentized header with search field and dialog for sorting.
 Used material icons. There are probably a lot of nice polish

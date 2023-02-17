@@ -22,10 +22,10 @@ const LS_LAST_SYNC_KEY = "zach-rolodex-last-sync"
 const TEN_MINUTES_MS = 1000 * 60 * 10
 
 export enum SortMode {
-  FLASC = 0,
-  FLDSC = 1,
-  LFASC = 2,
-  LFDSC = 3,
+  FLASC = 1,
+  FLDSC = 2,
+  LFASC = 3,
+  LFDSC = 4,
 }
 
 // Person such as the API provides them, in order to perform type-safe mapping
@@ -238,6 +238,7 @@ const sorters = {
  * lastname searches, and sorts results
  */
 export async function searchNames(search: string, sortMode: SortMode) {
+  search = search.charAt(0).toUpperCase() + search.slice(1).toLowerCase()
   return Object.entries({
     ...(await searchNameIndex("firstname", search)),
     ...(await searchNameIndex("lastname", search)),
