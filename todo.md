@@ -17,8 +17,8 @@
 - [x] DB Error handling and compatibility checking for opening db
 - [x] Enable sorting on last-name/ascending/descending
 - [x] Componentize & Design result list
+- [x] Search box & header
 - [ ] Prevent searching with empty string
-- [ ] Search box & header
 - [ ] Display for empty results
 - [ ] Display errors
 - [ ] DIsplay no search string
@@ -38,6 +38,12 @@
 - [ ] Redo logic in search view to use state-machine engine like hyperapp's
 
 # Log
+
+Componentized header with search field and dialog for sorting.
+Used material icons. There are probably a lot of nice polish
+I could do here, that will probably have to skip in the interest of finishing this assignment within reasonable time.
+
+---
 
 Started designing the result list for mobile first. Componentized some ofit
 Realized that we will probably need to prevent searching on empty string. Require

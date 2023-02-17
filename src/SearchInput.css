@@ -1,0 +1,17 @@
+.searchInput {
+  margin: 0.2em 0.4em;
+  border-radius: 1em;
+  font-size: 1.2em;
+  font-family: "Barlow", sans-serif;
+  height: 1.6em;
+  padding: 0 1.5em;
+  box-sizing: border-box;
+  border: 0;
+  background-color: rgb(63, 63, 138);
+  color: #fff;
+}
+.searchInput:focus {
+  outline: none;
+  border: 1px solid #daf;
+  padding: 0 calc(1.5em - 1px);
+}

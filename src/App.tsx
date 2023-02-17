@@ -1,4 +1,3 @@
-import React from "react"
 import { SearchView } from "./SearchView"
 import { DetailView } from "./DetailView"
 

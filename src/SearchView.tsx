@@ -1,6 +1,8 @@
 import React, { useReducer, useEffect, useDeferredValue } from "react"
 import { SortMode, SearchResult, searchNames } from "./db"
 import { SearchResultsList } from "./SearchResultsList"
+import { SearchInput } from "./SearchInput"
+import { SortDialog } from "./SortDialog"
 const LS_LAST_SEARCH = "zach-rolodex-last-search"
 const LS_LAST_SORT = "zach-rolodex-last-sort"
 const DEBOUNCE_DELAY = 200
@@ -191,42 +193,19 @@ export function SearchView() {
   let deferredResults = useDeferredValue(state.results)
   return (
     <main>
-      <h1>Rolodex</h1>
-      <label>
-        <span className="label">Search:</span>
-        <input
-          autoFocus
-          type="text"
+      <header>
+        <h1>ACME Inc. Rolodex</h1>
+        <SearchInput
           tabIndex={0}
+          autoFocus
           value={state.search}
-          onInput={ev =>
-            dispatch({
-              type: "set search",
-              search: (ev.target as HTMLInputElement).value,
-            })
-          }
+          onInput={search => dispatch({ type: "set search", search })}
         />
-      </label>
-      <label>
-        <span className="label">Sort:</span>
-        <select
-          value={state.sort}
-          tabIndex={1}
-          onInput={ev => {
-            dispatch({
-              type: "set sort",
-              sort: +(ev.target as HTMLSelectElement).value as SortMode,
-            })
-          }}
-        >
-          <option value={SortMode.FLASC}>Firstname Lastname, ascending</option>
-          <option value={SortMode.FLDSC}>Firstname Lastname, descending</option>
-          <option value={SortMode.LFASC}>Lastname, Firstname, ascending</option>
-          <option value={SortMode.LFDSC}>
-            Lastname, Firstname, descending
-          </option>
-        </select>
-      </label>
+        <SortDialog
+          sortMode={state.sort}
+          setSortMode={sort => dispatch({ type: "set sort", sort })}
+        />
+      </header>
       {state.error && (
         <p className="error">There was an error searching. Try again.</p>
       )}
