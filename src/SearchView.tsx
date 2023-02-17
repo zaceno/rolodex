@@ -72,12 +72,7 @@ export function SearchView() {
     <main>
       <header>
         <h1>ACME Inc. Rolodex</h1>
-        <SearchInput
-          tabIndex={0}
-          autoFocus
-          value={search}
-          onInput={setSearch}
-        />
+        <SearchInput tabIndex={0} value={search} onInput={setSearch} />
         <SortDialog sortMode={sort} setSortMode={setSort} />
       </header>
       {error && (

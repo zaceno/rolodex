@@ -20,7 +20,8 @@
 - [x] Search box & header
 - [x] Sorting selector
 - [x] Prevent searching with empty string
-- [ ] Design detail page
+- [x] Design detail page
+- [ ] Fix autofocus
 - [ ] Display errors
 - [ ] DIsplay no search string
 - [ ] Display busy searching
@@ -30,6 +31,9 @@
 - [ ] Add comments to support reviewers
 
 # Log
+
+While designing detail page I realized autofocus breaks
+on navigation. Will have to take care of that.
 
 ---
 

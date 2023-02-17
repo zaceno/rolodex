@@ -4,7 +4,6 @@ type SearchInputProps = {
   value: string
   onInput: (v: string) => any
   tabIndex?: number
-  autoFocus?: boolean
 }
 
 export const SearchInput = (props: SearchInputProps) => {
@@ -12,6 +11,7 @@ export const SearchInput = (props: SearchInputProps) => {
 
   return (
     <input
+      autoFocus
       className="searchInput"
       type="text"
       placeholder="Search"

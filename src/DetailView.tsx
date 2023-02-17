@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react"
+import { useState, useEffect } from "react"
 import { Person, getDetails } from "./db"
-
+import "./DetailView.css"
 const defaultPerson: Person = {
   id: "",
   firstname: "",
@@ -33,6 +33,7 @@ type DetailViewProps = {
 export function DetailView({ id }: DetailViewProps) {
   let [error, setError] = useState<boolean>(false)
   let [contact, setContact] = useState<Person>(defaultPerson)
+  let [buttonActive, setButtonActive] = useState<boolean>(false)
   useEffect(() => {
     getDetails(id)
       .then(details => {
@@ -43,34 +44,49 @@ export function DetailView({ id }: DetailViewProps) {
         setError(true)
       })
   }, [])
+
   return (
     <main>
-      {error && (
-        <p className="Error">
-          There was an error. Please go back and try again
-        </p>
-      )}
-      <img src={contact.portrait} alt={nameString(contact)} />
-      <dl>
-        <dt>Name:</dt>
-        <dd>{nameString(contact)}</dd>
-        <dt>E-mail:</dt>
-        <dd>{contact.email}</dd>
-        <dt>Phone:</dt>
-        <dd>
-          {contact.phone1}
-          <br />
-          {contact.phone2}
-        </dd>
-        <dt>Address:</dt>
-        <dd>
-          {contact.address1}
-          <br />
-          {contact.address2}
-          <br />
-          {contact.address3}
-        </dd>
-      </dl>
+      <header>
+        <h1>ACME Inc. Rolodex</h1>
+        <div
+          className={"detailBackButton" + (buttonActive ? " active" : "")}
+          onMouseDown={() => setButtonActive(true)}
+          onClick={() => {
+            window.history.back()
+          }}
+        >
+          <span className="icon">arrow_left</span>
+        </div>
+      </header>
+      <div className="detailContactCard">
+        {error && (
+          <p className="Error">
+            There was an error. Please go back and try again
+          </p>
+        )}
+        <img src={contact.portrait} alt={nameString(contact)} />
+        <dl>
+          <dt className="dtName">Name:</dt>
+          <dd className="ddName">{nameString(contact)}</dd>
+          <dt className="dtEmail">E-mail:</dt>
+          <dd className="ddEmail">{contact.email}</dd>
+          <dt className="dtPhone">Phone:</dt>
+          <dd className="ddPhone">
+            {contact.phone1}
+            <br />
+            {contact.phone2}
+          </dd>
+          <dt className="dtAddress">Address:</dt>
+          <dd className="ddAddress">
+            {contact.address1}
+            <br />
+            {contact.address2}
+            <br />
+            {contact.address3}
+          </dd>
+        </dl>
+      </div>
     </main>
   )
 }
