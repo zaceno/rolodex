@@ -30,8 +30,7 @@ export const ListContactCard = (props: ListContactCardProps) => {
   }, [])
 
   const navigate = () => {
-    console.log("NAVIGATIONG", props.navUrl)
-    window.location.pathname = props.navUrl
+    window.location.hash = props.navUrl
   }
 
   const name = props.formal

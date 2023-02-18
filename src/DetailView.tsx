@@ -46,7 +46,7 @@ export function DetailView({ id }: DetailViewProps) {
   }, [])
 
   return (
-    <main>
+    <>
       <header>
         <h1>ACME Inc. Rolodex</h1>
         <div
@@ -87,6 +87,6 @@ export function DetailView({ id }: DetailViewProps) {
           </dd>
         </dl>
       </div>
-    </main>
+    </>
   )
 }

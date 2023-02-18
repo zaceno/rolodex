@@ -18,7 +18,7 @@ export const SearchResultsList = (props: SearchResultsListProps) => {
             formal={props.formal}
             imageUrl={person.thumbnail}
             extra={person.phone1 || person.email}
-            navUrl={"/" + person.id}
+            navUrl={"#" + person.id}
           />
         </li>
       ))}

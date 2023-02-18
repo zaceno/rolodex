@@ -21,7 +21,7 @@
 - [x] Sorting selector
 - [x] Prevent searching with empty string
 - [x] Design detail page
-- [ ] Fix autofocus
+- [x] Fix autofocus
 - [ ] Display errors
 - [ ] DIsplay no search string
 - [ ] Display busy searching
@@ -31,6 +31,14 @@
 - [ ] Add comments to support reviewers
 
 # Log
+
+Spent a long time trying to figure out how to preserve focus on navigation.
+Why navigation breaks autofocus. Finally came to conclusion to use hash-based
+routing instead. Autocomplete works fine, but instead scroll-position breaks on back
+And I'm having difficulty figuring that part out. In the interest of time I think I will
+skip it.
+
+---
 
 While designing detail page I realized autofocus breaks
 on navigation. Will have to take care of that.

@@ -1,10 +1,22 @@
+import { useEffect, useState } from "react"
 import { SearchView } from "./SearchView"
 import { DetailView } from "./DetailView"
 
 function App() {
-  let id = window.location.pathname.match(/^\/(.+)$/)?.[1]
-  if (!id) return SearchView()
-  else return DetailView({ id })
+  let [id, setId] = useState<string>(
+    window.location.hash.match(/^#(.+)$/)?.[1] || ""
+  )
+  useEffect(() => {
+    const handler = () => {
+      setId(window.location.hash.match(/^#(.+)$/)?.[1] || "")
+    }
+    window.addEventListener("hashchange", handler)
+    return () => {
+      window.removeEventListener("hashchange", handler)
+    }
+  }, [])
+
+  return <main>{id ? <DetailView id={id} /> : <SearchView />}</main>
 }
 
 export default App

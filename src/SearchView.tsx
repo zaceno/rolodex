@@ -69,7 +69,7 @@ export function SearchView() {
   }, [search, sort])
 
   return (
-    <main>
+    <>
       <header>
         <h1>ACME Inc. Rolodex</h1>
         <SearchInput tabIndex={0} value={search} onInput={setSearch} />
@@ -84,6 +84,6 @@ export function SearchView() {
           formal={sort === SortMode.LFASC || sort === SortMode.LFDSC}
         />
       )}
-    </main>
+    </>
   )
 }
