@@ -22,6 +22,7 @@
 - [x] Prevent searching with empty string
 - [x] Design detail page
 - [x] Fix autofocus
+- [x] Fix scroll restoration
 - [ ] Display errors
 - [ ] DIsplay no search string
 - [ ] Display busy searching
@@ -31,6 +32,18 @@
 - [ ] Add comments to support reviewers
 
 # Log
+
+---
+
+I deciced to solve the scroll restoration anyway becuse I just found it
+frustrating it wasn't working. It turns out the problem I was likely having
+was the fact that I was using useDefferedValue for the result-list rendering,
+meaning I couldn't wait for the searchlistview to finish rendering to restor
+scroll position - that would be too early. So I had to add a finshedRender
+callback prop to the result-list. I feel that all of this makes a strong case
+for more minimalist tools like hyperapp
+
+---
 
 Spent a long time trying to figure out how to preserve focus on navigation.
 Why navigation breaks autofocus. Finally came to conclusion to use hash-based

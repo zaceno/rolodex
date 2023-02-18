@@ -5,6 +5,7 @@ import { SearchInput } from "./SearchInput"
 import { SortDialog } from "./SortDialog"
 const LS_LAST_SEARCH = "zach-rolodex-last-search"
 const LS_LAST_SORT = "zach-rolodex-last-sort"
+const LS_LAST_SCROLL = "zach-rolodex-last-scroll"
 const DEBOUNCE_DELAY = 200
 
 export function SearchView() {
@@ -26,7 +27,7 @@ export function SearchView() {
   }, [])
 
   // Effect for searching when search and sort changes
-  // Lots of protections against performance wasters
+  // Performance optimizations
   //  - debounce searching while typing
   //  - ignore search results that come back for earlier results
   //  - don't search for empty string - just use empty result
@@ -68,6 +69,23 @@ export function SearchView() {
     )
   }, [search, sort])
 
+  //Scroll restoration on return to search list from detail page
+  useEffect(() => {
+    let tmpScrollMemo: number
+    const handler = () => {
+      tmpScrollMemo = document.body.scrollTop
+    }
+    document.body.addEventListener("scroll", handler)
+    return () => {
+      if (tmpScrollMemo)
+        localStorage.setItem(LS_LAST_SCROLL, "" + tmpScrollMemo)
+      document.body.removeEventListener("scroll", handler)
+    }
+  }, [])
+  const restoreScroll = () => {
+    document.body.scrollTop = +(localStorage.getItem(LS_LAST_SCROLL) || 0)
+  }
+
   return (
     <>
       <header>
@@ -80,6 +98,7 @@ export function SearchView() {
       )}
       {deferredResults.length && (
         <SearchResultsList
+          onFinishRender={restoreScroll}
           results={deferredResults}
           formal={sort === SortMode.LFASC || sort === SortMode.LFDSC}
         />
