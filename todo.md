@@ -23,15 +23,24 @@
 - [x] Design detail page
 - [x] Fix autofocus
 - [x] Fix scroll restoration
-- [ ] Display errors
-- [ ] DIsplay no search string
-- [ ] Display busy searching
-- [ ] improve navigation transitions
+- [x] reset scroll tracking
+- [x] Display errors
+- [ ] Display no results
+- [ ] Polish mobile design in chrome/safari/FF
 - [ ] Improve design for ipad
 - [ ] Improve design for desktop
 - [ ] Add comments to support reviewers
 
 # Log
+
+I changed my mind. Won't show any message when no search string entered
+but will show a message when there are no results instead. Will also not
+display any spinner or such while searching because it is so fast.
+
+---
+
+While adding the error displays, I also added a fix for resetting
+scrolling when changing search or sort
 
 ---
 

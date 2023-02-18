@@ -1,0 +1,13 @@
+.searchView-error {
+  position: relative;
+  background-color: #fff;
+  padding: 8px;
+  text-align: center;
+  border-radius: 0.2em;
+  box-shadow: 0 2px 2px #00000088;
+  margin: var(--list-card-spacing);
+  margin-top: calc(var(--header-height) + var(--list-card-spacing));
+  line-height: var(--thumbnail-image-width);
+  font-style: italic;
+  color: rgb(184, 0, 151);
+}

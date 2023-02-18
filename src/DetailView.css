@@ -5,7 +5,10 @@
   border-radius: var(--list-card-spacing);
   padding: var(--list-card-spacing);
 }
-
+.detailContactCard .error {
+  font-style: italic;
+  color: rgb(184, 0, 151);
+}
 .detailContactCard img {
   display: block;
   width: 60%;

@@ -239,12 +239,13 @@ const sorters = {
  */
 export async function searchNames(search: string, sortMode: SortMode) {
   search = search.charAt(0).toUpperCase() + search.slice(1).toLowerCase()
-  return Object.entries({
+  let results = Object.entries({
     ...(await searchNameIndex("firstname", search)),
     ...(await searchNameIndex("lastname", search)),
   })
     .map(([k, v]) => v)
     .sort(sorters[sortMode])
+  return results
 }
 
 /**
@@ -256,6 +257,7 @@ export async function getDetails(id: string) {
     const transaction = db.transaction([DB_OBJ_STORE], "readonly")
     const req = transaction.objectStore(DB_OBJ_STORE).get(id)
     req.onsuccess = () => {
+      if (!req.result) reject(new Error("Not found"))
       resolve(req.result)
     }
     req.onerror = ev => {

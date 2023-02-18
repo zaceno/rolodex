@@ -3,6 +3,7 @@ import { SortMode, SearchResult, searchNames } from "./db"
 import { SearchResultsList } from "./SearchResultsList"
 import { SearchInput } from "./SearchInput"
 import { SortDialog } from "./SortDialog"
+import "./SearchView.css"
 const LS_LAST_SEARCH = "zach-rolodex-last-search"
 const LS_LAST_SORT = "zach-rolodex-last-sort"
 const LS_LAST_SCROLL = "zach-rolodex-last-scroll"
@@ -58,6 +59,7 @@ export function SearchView() {
             setResults(results)
           })
           .catch(e => {
+            console.log("ERROR", lastSearchParams.current, search, sort)
             if (
               lastSearchParams.current.search !== search ||
               lastSearchParams.current.sort !== sort
@@ -71,17 +73,24 @@ export function SearchView() {
 
   //Scroll restoration on return to search list from detail page
   useEffect(() => {
-    let tmpScrollMemo: number
+    let scrollMemo: number
     const handler = () => {
-      tmpScrollMemo = document.body.scrollTop
+      scrollMemo = document.body.scrollTop
     }
     document.body.addEventListener("scroll", handler)
     return () => {
-      if (tmpScrollMemo)
-        localStorage.setItem(LS_LAST_SCROLL, "" + tmpScrollMemo)
+      if (scrollMemo) localStorage.setItem(LS_LAST_SCROLL, "" + scrollMemo)
       document.body.removeEventListener("scroll", handler)
     }
   }, [])
+
+  // this resets the scroll tracking. Using it in the effect above breaks
+  // the restoreScroll, so it needs to be called direclty when inputing
+  // a new search or new sort
+  const resetScroll = () => {
+    localStorage.setItem(LS_LAST_SCROLL, "0")
+  }
+  // this function is passed as prop to result list becuase it is defferred
   const restoreScroll = () => {
     document.body.scrollTop = +(localStorage.getItem(LS_LAST_SCROLL) || 0)
   }
@@ -90,13 +99,28 @@ export function SearchView() {
     <>
       <header>
         <h1>ACME Inc. Rolodex</h1>
-        <SearchInput tabIndex={0} value={search} onInput={setSearch} />
-        <SortDialog sortMode={sort} setSortMode={setSort} />
+        <SearchInput
+          tabIndex={0}
+          value={search}
+          onInput={search => {
+            setSearch(search)
+            resetScroll()
+          }}
+        />
+        <SortDialog
+          sortMode={sort}
+          setSortMode={sort => {
+            setSort(sort)
+            resetScroll()
+          }}
+        />
       </header>
       {error && (
-        <p className="error">There was an error searching. Try again.</p>
+        <p className="searchView-error">
+          There was an error searching. Try again.
+        </p>
       )}
-      {deferredResults.length && (
+      {!!deferredResults.length && (
         <SearchResultsList
           onFinishRender={restoreScroll}
           results={deferredResults}

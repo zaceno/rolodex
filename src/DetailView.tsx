@@ -36,13 +36,8 @@ export function DetailView({ id }: DetailViewProps) {
   let [buttonActive, setButtonActive] = useState<boolean>(false)
   useEffect(() => {
     getDetails(id)
-      .then(details => {
-        setContact(details)
-        setError(false)
-      })
-      .catch(e => {
-        setError(true)
-      })
+      .then(details => setContact(details))
+      .catch(e => setError(true))
   }, [])
 
   return (
@@ -60,32 +55,35 @@ export function DetailView({ id }: DetailViewProps) {
         </div>
       </header>
       <div className="detailContactCard">
-        {error && (
-          <p className="Error">
+        {error ? (
+          <p className="error">
             There was an error. Please go back and try again
           </p>
+        ) : (
+          <>
+            <img src={contact.portrait} alt={nameString(contact)} />
+            <dl>
+              <dt className="dtName">Name:</dt>
+              <dd className="ddName">{nameString(contact)}</dd>
+              <dt className="dtEmail">E-mail:</dt>
+              <dd className="ddEmail">{contact.email}</dd>
+              <dt className="dtPhone">Phone:</dt>
+              <dd className="ddPhone">
+                {contact.phone1}
+                <br />
+                {contact.phone2}
+              </dd>
+              <dt className="dtAddress">Address:</dt>
+              <dd className="ddAddress">
+                {contact.address1}
+                <br />
+                {contact.address2}
+                <br />
+                {contact.address3}
+              </dd>
+            </dl>
+          </>
         )}
-        <img src={contact.portrait} alt={nameString(contact)} />
-        <dl>
-          <dt className="dtName">Name:</dt>
-          <dd className="ddName">{nameString(contact)}</dd>
-          <dt className="dtEmail">E-mail:</dt>
-          <dd className="ddEmail">{contact.email}</dd>
-          <dt className="dtPhone">Phone:</dt>
-          <dd className="ddPhone">
-            {contact.phone1}
-            <br />
-            {contact.phone2}
-          </dd>
-          <dt className="dtAddress">Address:</dt>
-          <dd className="ddAddress">
-            {contact.address1}
-            <br />
-            {contact.address2}
-            <br />
-            {contact.address3}
-          </dd>
-        </dl>
       </div>
     </>
   )
