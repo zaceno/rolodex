@@ -13,7 +13,7 @@ export function SearchView() {
   let [search, setSearch] = useState<string>("")
   let [sort, setSort] = useState<SortMode>(SortMode.FLASC)
   let [error, setError] = useState<boolean>(false)
-  let [results, setResults] = useState<SearchResult[]>([])
+  let [results, setResults] = useState<SearchResult[] | null>(null)
   // Give lower priority to results over input
   let deferredResults = useDeferredValue(results)
 
@@ -45,7 +45,7 @@ export function SearchView() {
         setDebounceTimeout(null)
         localStorage.setItem(LS_LAST_SEARCH, search)
         localStorage.setItem(LS_LAST_SORT, "" + sort)
-        setResults([])
+        setResults(null)
         setError(false)
         if (search.length < 1) return
         lastSearchParams.current = { search, sort }
@@ -59,7 +59,6 @@ export function SearchView() {
             setResults(results)
           })
           .catch(e => {
-            console.log("ERROR", lastSearchParams.current, search, sort)
             if (
               lastSearchParams.current.search !== search ||
               lastSearchParams.current.sort !== sort
@@ -120,7 +119,10 @@ export function SearchView() {
           There was an error searching. Try again.
         </p>
       )}
-      {!!deferredResults.length && (
+      {deferredResults !== null && deferredResults?.length == 0 && (
+        <p className="searchView-error">No results. Try a shorter search.</p>
+      )}
+      {deferredResults != null && deferredResults.length > 0 && (
         <SearchResultsList
           onFinishRender={restoreScroll}
           results={deferredResults}

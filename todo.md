@@ -25,7 +25,7 @@
 - [x] Fix scroll restoration
 - [x] reset scroll tracking
 - [x] Display errors
-- [ ] Display no results
+- [x] Display no results
 - [ ] Polish mobile design in chrome/safari/FF
 - [ ] Improve design for ipad
 - [ ] Improve design for desktop
