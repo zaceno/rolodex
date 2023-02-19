@@ -10,9 +10,13 @@ const LS_LAST_SCROLL = "zach-rolodex-last-scroll"
 const DEBOUNCE_DELAY = 200
 
 export function SearchView() {
+  // Keep track of currently entered search data
   let [search, setSearch] = useState<string>("")
+  // Keep track of current sort mode
   let [sort, setSort] = useState<SortMode>(SortMode.FLASC)
+  // Keep track of database errors
   let [error, setError] = useState<boolean>(false)
+  // Keep track of results
   let [results, setResults] = useState<SearchResult[] | null>(null)
   // Give lower priority to results over input
   let deferredResults = useDeferredValue(results)

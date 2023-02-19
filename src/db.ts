@@ -221,6 +221,7 @@ async function searchNameIndex(
   })
 }
 
+// sorter definitions
 const fnln = (n: SearchResult) => n.firstname + n.lastname
 const lnfn = (n: SearchResult) => n.lastname + n.firstname
 const asc = (l: string, r: string) => (l < r ? -1 : l > r ? 1 : 0)

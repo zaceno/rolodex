@@ -3,6 +3,7 @@ import { SearchView } from "./SearchView"
 import { DetailView } from "./DetailView"
 
 function App() {
+  // Extremely basic hash-based routing.
   let [id, setId] = useState<string>(
     window.location.hash.match(/^#(.+)$/)?.[1] || ""
   )

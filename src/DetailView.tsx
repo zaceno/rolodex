@@ -16,6 +16,7 @@ const defaultPerson: Person = {
   portrait: "",
 }
 
+// Combines title and names into single presentation-string
 function nameString(contact: Person) {
   return [
     contact.title && contact.title + ".",
@@ -26,14 +27,17 @@ function nameString(contact: Person) {
     .join(" ")
 }
 
-type DetailViewProps = {
-  id: string
-}
-
-export function DetailView({ id }: DetailViewProps) {
+export function DetailView({ id }: { id: string }) {
+  // tracks if we got an error from db for the given id
   let [error, setError] = useState<boolean>(false)
+
+  // holds the result from db for given id
   let [contact, setContact] = useState<Person>(defaultPerson)
+
+  // Tracks the back-button active state
   let [buttonActive, setButtonActive] = useState<boolean>(false)
+
+  // Given an id in props, fetch the person from db
   useEffect(() => {
     getDetails(id)
       .then(details => setContact(details))

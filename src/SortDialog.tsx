@@ -1,6 +1,9 @@
-import { useState, useRef, useEffect, useCallback } from "react"
+import { useState, useEffect } from "react"
 import { SortMode } from "./db"
 import "./SortDialog.css"
+
+// This component represents both the sort-option button, as
+// well as the dialog that pops up when activated.
 
 type SortDialogProps = {
   sortMode: SortMode

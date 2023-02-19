@@ -27,11 +27,19 @@
 - [x] Display errors
 - [x] Display no results
 - [x] Polish mobile design in chrome/safari/FF
-- [ ] Improve design for ipad
-- [ ] Improve design for desktop
-- [ ] Add comments to support reviewers
+- [x] Improve design for ipad
+- [x] Improve design for desktop
+- [x] Add comments to support reviewers
+- [ ] Rewrite the readme
 
 # Log
+
+Trying to use media-queries to scale up the design at breakpoints failed at
+first, because I didn't realize the rem-base is the font size of the html element
+and I had ben explicitly setting a font size on html,body. Once I brought that selector
+in to my media queries it worked out.
+
+---
 
 Polished the design in many small ways. Mainly in order
 to ensure design scales well with root-font-size. Involved

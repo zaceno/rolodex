@@ -11,9 +11,13 @@ type ListContactCardProps = {
 }
 
 export const ListContactCard = (props: ListContactCardProps) => {
+  // This bunch of hooks is about keepling track of wether the component
+  // is active (=pressed) currently. Gives a nice bit of interactive feel.
+  // Need to listen to mouseup/touchend on window rather than component
+  // otherwise the component might stay depressed if we move out before
+  // releasing
   let elemRef = useRef<HTMLDivElement>(null)
   let [active, setActive] = useState<boolean>(false)
-
   useEffect(() => {
     const activate = () => setActive(true)
     const deactivate = () => setActive(false)
