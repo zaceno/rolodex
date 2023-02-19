@@ -108,3 +108,22 @@
   cursor: pointer;
   border: 1px #daf solid;
 }
+
+@media (min-width: 600px) {
+  .detailContactCard dl {
+    margin: 1rem;
+  }
+}
+
+@media (min-width: 800px) {
+  .detailContactCard {
+    width: 31rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .detailContactCard dl {
+    width: 17rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

@@ -38,3 +38,11 @@
   white-space: nowrap;
   overflow: hidden;
 }
+
+@media (min-width: 800px) {
+  .listContactCard {
+    width: 27rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

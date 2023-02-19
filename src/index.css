@@ -87,3 +87,24 @@ main > header > h1 {
   color: #daf;
   text-shadow: 0 1px 0 #ffffff99;
 }
+
+@media (min-width: 400px) {
+  html,
+  body {
+    font-size: 18px;
+  }
+}
+
+@media (min-width: 500px) {
+  html,
+  body {
+    font-size: 21px;
+  }
+}
+
+@media (min-width: 600px) {
+  html,
+  body {
+    font-size: 24px;
+  }
+}
