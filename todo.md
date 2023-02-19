@@ -30,7 +30,7 @@
 - [x] Improve design for ipad
 - [x] Improve design for desktop
 - [x] Add comments to support reviewers
-- [ ] Rewrite the readme
+- [x] Rewrite the readme
 
 # Log
 

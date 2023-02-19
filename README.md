@@ -1,46 +1,33 @@
-# Getting Started with Create React App
+# ACME Inc. Rolodex
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A contact-database frontend based on the http://randomuser.me api. An assignment for technical evaluation.
 
-## Available Scripts
+## How to test it
 
-In the project directory, you can run:
+Clone the project to a local folder
 
-### `npm start`
+```sh
+cd rolodex
+npm install
+npm start
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+...then visit `http://localhost:3000` in your browser of choice (tested on latest chrome, firefox & safari)
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Notes for reviewers
 
-### `npm test`
+Tried to leave helpful comments in the code where it seemed to make sense. I also left the "todo.md" file
+which has a reverse-chronological-order log of my notes as I worked. That might also yield some insights
+into my design choices and thinking process.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## What I'd do if this were a real assignment
 
-### `npm run build`
+This was a rather open-ended and broad assignment, so unfortunately there are some things I would like
+to have done but skipped in the interest of time. My approach was to try to get this to the level of
+a first working prototype demo for a client. A useful basis for further discussion.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+If I had more time I would have liked to have added smooth transitions, and maybe rethink the idea of separate list/detail pages entirely. I would also have liked to have added some tests. Not unit-tests byt
+automated whole-system-tests with e.g. cypress. But even before that, I would like to have maybe rethought some of my design-choices and done some heavy refactoring. Creating more reusable structures for future development.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+And of course in a real-world scenario I would have liked to have done user-research, and worked with
+a UX specialist to come up with a better design.
