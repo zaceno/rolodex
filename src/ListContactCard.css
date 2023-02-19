@@ -1,11 +1,11 @@
 .listContactCard {
   position: relative;
   background-color: #fff;
-  padding: 0.5em;
-  padding-left: calc(1.5em + var(--thumbnail-image-width));
+  padding: 0.3rem;
+  padding-left: calc(1.5rem + var(--thumbnail-image-width));
   display: flex;
   flex-direction: column;
-  border-radius: 0.2em;
+  border-radius: 0.2rem;
   box-shadow: 0 2px 2px #00000088;
   margin: var(--list-card-spacing);
 }
@@ -17,18 +17,18 @@
 
 .listContactCard-image {
   position: absolute;
-  top: 8px;
-  left: 8px;
+  top: 0.3rem;
+  left: 0.3rem;
   width: var(--thumbnail-image-width);
   height: var(--thumbnail-image-width);
   background: #ddd;
-  border-radius: 0.2em;
+  border-radius: 0.2rem;
 }
 
 .listContactCard-name {
   font-weight: normal;
   font-style: italic;
-  font-size: 1.5em;
+  font-size: 1.5rem;
   white-space: nowrap;
   overflow: hidden;
 }

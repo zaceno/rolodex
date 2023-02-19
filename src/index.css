@@ -44,16 +44,16 @@ body {
 }
 
 :root {
-  --thumbnail-image-width: 48px;
-  --header-height: 96px;
-  --list-card-spacing: 0.7em;
+  --thumbnail-image-width: 3rem;
+  --header-height: 5.7rem;
+  --list-card-spacing: 0.7rem;
 }
 
 .icon {
   font-family: "Material Icons";
   font-weight: normal;
   font-style: normal;
-  font-size: 24px; /* Preferred icon size */
+  font-size: 1.5rem; /* Preferred icon size */
   display: inline-block;
   line-height: 1;
   text-transform: none;
@@ -78,9 +78,10 @@ main > header {
 }
 
 main > header > h1 {
-  font-size: 1.4em;
-  line-height: 1.4em;
-  margin: 0.2em 0.4em;
+  font-size: 1.4rem;
+  line-height: 1.4rem;
+  margin: 0.4rem;
+  margin-left: 1rem;
   padding: 0;
   font-weight: 300;
   color: #daf;

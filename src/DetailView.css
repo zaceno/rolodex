@@ -11,75 +11,86 @@
 }
 .detailContactCard img {
   display: block;
-  width: 60%;
-  height: 60%;
+  width: 12rem;
+  height: 12rem;
   background-color: #ddd;
   margin-left: auto;
   margin-right: auto;
 }
 
+.detailContactCard dd {
+  margin: 0;
+}
+.detailContactCard dl > * {
+  margin: 0;
+  padding: 0;
+}
+.detailContactCard dl {
+  display: grid;
+  grid-template-columns: 1.5rem auto;
+  grid-template-rows: auto 2rem 3rem auto;
+  column-gap: 0.9rem;
+  row-gap: 1rem;
+}
+
+.detailContactCard .ddName {
+  font-size: 1.5rem;
+  font-style: italic;
+  margin-left: -2.2rem;
+  margin-top: 0.4rem;
+}
+.detailContactCard dt {
+  visibility: hidden;
+}
+.detailContactCard dt::before {
+  visibility: visible;
+  font-family: "Material Icons";
+  color: #aaa;
+  font-size: 1.5rem;
+  content: "";
+}
+.detailContactCard .dtEmail::before {
+  content: "mail";
+}
+
+.detailContactCard .dtPhone::before {
+  content: "phone";
+}
+
+.detailContactCard .dtAddress::before {
+  content: "house";
+}
+
+/*
 .detailContactCard .dtName {
   display: none;
 }
 .detailContactCard .ddName {
   font-weight: normal;
   font-style: italic;
-  font-size: 1.5em;
+  font-size: 1.5rem;
 }
 
-.detailContactCard .dtEmail {
-  margin-top: 1em;
+.detailContactCard dt {
+  margin-top: 1rem;
   visibility: hidden;
   width: 0;
   height: 0;
 }
-.detailContactCard .dtEmail::before {
-  position: relative;
-  visibility: visible;
-  font-family: "Material Icons";
-  content: "mail";
-  color: #aaa;
-  font-size: 20px;
-}
-.detailContactCard .dtPhone {
-  margin-top: 1em;
-  visibility: hidden;
-  width: 0;
-  height: 0;
-}
-.detailContactCard .dtPhone::before {
-  position: relative;
-  visibility: visible;
-  font-family: "Material Icons";
-  content: "phone";
-  color: #aaa;
-  font-size: 20px;
-}
-.detailContactCard .dtAddress {
-  margin-top: 1em;
-  visibility: hidden;
-  width: 0;
-  height: 0;
-}
-.detailContactCard .dtAddress::before {
-  position: relative;
-  visibility: visible;
-  font-family: "Material Icons";
-  content: "house";
-  color: #aaa;
-  font-size: 20px;
-}
+
+
+}*/
 
 .detailBackButton {
   position: absolute;
-  left: 10px;
-  top: 40px;
+  left: 1rem;
+  top: 2.35rem;
   background-color: rgb(63, 63, 138);
-  width: 2.4em;
-  height: 2.4em;
+  width: 2.4rem;
+  height: 2.4rem;
   padding: 0;
-  line-height: 3.1em;
-  border-radius: 1.2em;
+  line-height: 3.1rem;
+  border-radius: 1.2rem;
   box-sizing: border-box;
   text-align: center;
   color: #daf;
@@ -92,7 +103,7 @@
 
 .detailBackButton.active {
   background-color: rgb(95, 95, 166);
-  line-height: 3em;
+  line-height: 3rem;
   color: #fff;
   cursor: pointer;
   border: 1px #daf solid;

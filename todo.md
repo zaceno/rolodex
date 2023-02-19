@@ -26,12 +26,19 @@
 - [x] reset scroll tracking
 - [x] Display errors
 - [x] Display no results
-- [ ] Polish mobile design in chrome/safari/FF
+- [x] Polish mobile design in chrome/safari/FF
 - [ ] Improve design for ipad
 - [ ] Improve design for desktop
 - [ ] Add comments to support reviewers
 
 # Log
+
+Polished the design in many small ways. Mainly in order
+to ensure design scales well with root-font-size. Involved
+making sure to use rem-units nearly everywhere, and also custom styling of radio-buttons (so they could also scale).
+This will help a lot for adjusting layout in wider viewports
+
+---
 
 I changed my mind. Won't show any message when no search string entered
 but will show a message when there are no results instead. Will also not

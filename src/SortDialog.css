@@ -1,13 +1,13 @@
 .sortDialogButton {
   position: absolute;
-  right: 30px;
-  top: 40px;
+  right: 1rem;
+  top: 2.35rem;
   background-color: rgb(63, 63, 138);
-  width: 2.4em;
-  height: 2.4em;
+  width: 2.4rem;
+  height: 2.4rem;
   padding: 0;
-  line-height: 3.1em;
-  border-radius: 1.2em;
+  line-height: 3.1rem;
+  border-radius: 1.2rem;
   box-sizing: border-box;
   text-align: center;
   color: #daf;
@@ -20,7 +20,7 @@
 
 .sortDialogButton.active {
   background-color: rgb(95, 95, 166);
-  line-height: 3em;
+  line-height: 3rem;
   color: #fff;
   cursor: pointer;
   border: 1px #daf solid;
@@ -28,8 +28,8 @@
 
 .sortDialog {
   position: fixed;
-  top: calc(var(--header-height) - 0.5em);
-  right: 30px;
+  top: calc(var(--header-height) - 0.5rem);
+  right: 1rem;
   background-color: rgb(0, 34, 77);
   color: white;
   z-index: 300;
@@ -42,25 +42,26 @@
   content: "";
   border-top: 1px #daf solid;
   border-left: 1px #daf solid;
-  width: 7px;
-  height: 7px;
+  width: 0.5rem;
+  height: 0.5rem;
   background: rgb(0, 34, 77);
   transform: rotate(45deg);
   position: absolute;
-  top: -4px;
-  right: 16px;
+  top: -0.25rem;
+  right: 0.95rem;
 }
 
 .sortDialog-column {
   display: flex;
   flex-direction: column;
-  padding: 0.7em 1.4em;
+  padding: 0.7rem 1.4rem;
 }
 .sortDialog-column + .sortDialog-column {
   padding-left: 0;
 }
 
 .sortDialog label {
+  cursor: pointer;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -74,6 +75,20 @@
   padding-right: 0.7rem;
 }
 
-.sortDialog lable input[type="radio"] {
-  vertical-align: bottom;
+.sortDialog label input[type="radio"] {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  border: 2px #daf solid;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 0.5rem;
+  background-image: radial-gradient(rgb(0, 34, 77), rgb(0, 34, 77));
+}
+.sortDialog label input[type="radio"]:checked {
+  background-image: radial-gradient(
+    #daf,
+    #daf 37%,
+    rgb(0, 34, 77) 37%,
+    rgb(0, 34, 77)
+  );
 }
